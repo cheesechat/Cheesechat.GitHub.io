@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendButton = document.getElementById('send');
 
     const displayMessage = (username, message) => {
+        console.log(`Displaying message: ${username}: ${message}`); // Debugging line
         const msgElement = document.createElement('div');
         msgElement.textContent = `${username}: ${message}`;
         messages.appendChild(msgElement);
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (username && message) {
             displayMessage(username, message);
             messageInput.value = '';
+        } else {
+            console.log('Username or message is empty'); // Debugging line
         }
     });
 

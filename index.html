@@ -53,6 +53,14 @@
     </div>
     <script>
         let username = '';
+        const ws = new WebSocket('ws://localhost:8080');
+
+        ws.onmessage = function(event) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = event.data;
+            document.getElementById('messages').appendChild(messageElement);
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        };
 
         function setUsername() {
             const usernameInput = document.getElementById('username').value;
@@ -67,11 +75,8 @@
             const messageInput = document.getElementById('message');
             const messageText = messageInput.value;
             if (messageText) {
-                const messageElement = document.createElement('div');
-                messageElement.textContent = `${username}: ${messageText}`;
-                document.getElementById('messages').appendChild(messageElement);
+                ws.send(`${username}: ${messageText}`);
                 messageInput.value = '';
-                document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
             }
         }
     </script>

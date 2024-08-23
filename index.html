@@ -3,80 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Chatroom</title>
+    <title>Simple Chat Room</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #f0f0f0;
         }
         #chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 10px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
         #messages {
-            flex: 1;
-            overflow-y: auto;
-            background-color: #fff;
+            height: 300px;
+            overflow-y: scroll;
             border: 1px solid #ddd;
             padding: 10px;
             margin-bottom: 10px;
         }
-        #input-container {
+        #message-form {
             display: flex;
-            align-items: center;
         }
-        #username, #message {
+        #message-form input {
+            flex: 1;
             padding: 10px;
             margin-right: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
         }
-        #send {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007bff;
-            color: #fff;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #send:hover {
-            background-color: #0056b3;
+        #message-form button {
+            padding: 10px;
         }
     </style>
 </head>
 <body>
     <div id="chat-container">
-        <div id="messages"></div>
-        <div id="input-container">
-            <input type="text" id="username" placeholder="Enter your username" />
-            <input type="text" id="message" placeholder="Type a message" />
-            <button id="send">Send</button>
+        <h1>Simple Chat Room</h1>
+        <div id="username-container">
+            <input type="text" id="username" placeholder="Enter your username">
+            <button onclick="setUsername()">Set Username</button>
+        </div>
+        <div id="chat-area" style="display: none;">
+            <div id="messages"></div>
+            <form id="message-form">
+                <input type="text" id="message" placeholder="Type a message">
+                <button type="button" onclick="sendMessage()">Send</button>
+            </form>
         </div>
     </div>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-    <!-- Your Firebase configuration -->
     <script>
-        st firebaseConfig = {
-  apiKey: "AIzaSyC0Lw2DU4E_vrllFJdkY8HCpYbjsdHGKkc",
-  authDomain: "github-9a769.firebaseapp.com",
-  projectId: "github-9a769",
-  storageBucket: "github-9a769.appspot.com",
-  messagingSenderId: "165401789969",
-  appId: "1:165401789969:web:d2c211bcc732d5ee8213b0",
-  measurementId: "G-4KYYQHC6SJ"
-};
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        let username = '';
+
+        function setUsername() {
+            const usernameInput = document.getElementById('username').value;
+            if (usernameInput) {
+                username = usernameInput;
+                document.getElementById('username-container').style.display = 'none';
+                document.getElementById('chat-area').style.display = 'block';
+            }
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('message');
+            const messageText = messageInput.value;
+            if (messageText) {
+                const messageElement = document.createElement('div');
+                messageElement.textContent = `${username}: ${messageText}`;
+                document.getElementById('messages').appendChild(messageElement);
+                messageInput.value = '';
+                document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+            }
+        }
     </script>
-    <script src="script.js"></script>
 </body>
 </html>

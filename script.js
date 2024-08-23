@@ -24,8 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
             dbRef.push({
                 username: username,
                 message: message
+            }).then(() => {
+                messageInput.value = '';
+            }).catch((error) => {
+                console.error('Error sending message:', error);
             });
-            messageInput.value = '';
+        } else {
+            console.log('Username or message is empty');
         }
     });
 
